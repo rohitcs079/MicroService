@@ -1,0 +1,46 @@
+
+spring:
+  cloud:
+    consul:
+      discovery:
+      # Multiple instance of same service on random ports
+        instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        health-check-interval: 10s
+  aop:
+    proxy-target-class: true
+  application:
+    name: manufacturer-apigateway
+   
+    
+
+# This micro service will run on PORT: 8083
+server:
+  port: 6666
+  
+zuul:
+  routes:
+    manufacturer-microservice: /ms/*
+    oauth-server:
+     sensitive-headers:
+     path: /secured/**
+     strip-prefix: false
+    add-proxy-headers: true
+security:
+  basic:
+    enabled: false
+  oauth2:
+    sso:
+      login-path: /login
+    client:
+      access-token-uri: http://localhost:{server.port}/secured/oauth/token
+      client-id: acme
+      client-secret: acmesecret
+    resource:
+      jwt:
+        key-value: |
+        
+        
+        
+        id: openid
+        serviceId:${PREFIX:}resource
+        

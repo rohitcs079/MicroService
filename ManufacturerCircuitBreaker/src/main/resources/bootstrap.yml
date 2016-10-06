@@ -1,0 +1,28 @@
+---
+spring:
+  cloud:
+    config:
+      #8001 port for config server 
+      uri: http://localhost:8001
+  application:
+    name: manufacturercb-microservice
+---
+
+spring:
+  cloud:
+    consul:
+      discovery:
+      # Multiple instance of same service on random ports
+        instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        health-check-interval: 10s
+turbine:
+  app-config: ${applications}
+  cluster-name-expression: ${applications}
+   
+    
+
+# This micro service will run on PORT: random
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+
+applications: consulhystrixclient

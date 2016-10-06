@@ -1,0 +1,25 @@
+---
+spring:
+  cloud:
+    config:
+      #8001 port for config server 
+      uri: http://localhost:8001
+  application:
+    name: oauth-server
+    
+---
+    
+
+# This micro service will run on PORT: 8083
+server:
+  port: 9999
+  context-path: /secured
+  
+security:
+  basic:
+    enabled: false
+  user:
+    password: password
+  
+  ignored: /css/**,/js/**,/favicon.ico,/webjars/**
+    
